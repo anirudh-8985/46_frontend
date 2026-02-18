@@ -1,0 +1,93 @@
+.main {
+  padding: 15px;
+}
+
+.section-title {
+  text-align: center;
+  font-weight: bold;
+  margin: 15px 0;
+}
+
+.score-card {
+  background: #e3b2b2;
+  padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  border-radius: 8px;
+}
+
+.team-block h2 {
+  margin: 0;
+}
+
+.sub-title {
+  margin: 20px 0 10px;
+}
+
+.odds-container {
+  background: #e7332a;
+  padding: 15px;
+  display: flex;
+  justify-content: space-around;
+  border-radius: 8px;
+}
+
+.odd-box {
+  background: white;
+  padding: 10px 15px;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.question-box {
+  margin-top: 15px;
+}
+
+.bet-panel {
+  margin-top: 20px;
+  background: #f4f4f4;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.bet-header {
+  background: #c9a600;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.bet-body {
+  padding: 15px;
+}
+/* Selected Odds Highlight */
+
+.active-odd {
+  background: #1d2c57 !important;
+  color: white !important;
+  border: 2px solid gold;
+  box-shadow: 0 0 8px rgba(255, 215, 0, 0.8);
+  transform: scale(1.05);
+  transition: all 0.2s ease;
+}
+
+.bet-body input {
+  width: 100%;
+  padding: 10px;
+  margin-bottom: 10px;
+}
+
+.place-btn {
+  width: 100%;
+  padding: 12px;
+  background: #1d2c57;
+  color: white;
+  border: none;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.returns {
+  margin-bottom: 10px;
+  font-weight: bold;
+}

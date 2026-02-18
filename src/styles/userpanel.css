@@ -1,0 +1,80 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.4);
+  z-index: 9;
+}
+.drawer {
+  position: fixed;
+  top: 0;
+  right: 0;              /* ✅ Move to right */
+  width: 260px;
+  height: 100%;
+  background: white;
+  box-shadow: -3px 0 10px rgba(0,0,0,0.2);
+  z-index: 30;
+  display: flex;
+  flex-direction: column;
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+
+/* .drawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 75%;
+  max-width: 320px;
+  height: 100%;
+  background: white;
+  z-index: 10;
+  padding: 15px;
+  box-shadow: 2px 0 10px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(-100%); }
+  to { transform: translateX(0); }
+} */
+
+.drawer-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.drawer-header button {
+  background: none;
+  border: none;
+  font-size: 18px;
+}
+
+.drawer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.drawer-btn {
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  background: #f2f2f2;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.drawer-btn.logout {
+  background: #ffdddd;
+  color: red;
+}

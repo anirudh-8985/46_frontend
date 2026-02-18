@@ -1,0 +1,27 @@
+.header {
+  height: 60px;
+  background: #d60000;
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 15px;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.balance-box {
+  background: white;
+  color: #d60000;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: bold;
+}
+
+.user-btn {
+  font-size: 22px;
+  cursor: pointer;
+}
