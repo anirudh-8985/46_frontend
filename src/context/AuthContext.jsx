@@ -11,7 +11,7 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
 
     const res = await fetch(
-      "http://localhost:5000/api/auth/login",
+      "http://four6-backend.onrender.com/api/auth/login",
       {
         method: "POST",
         headers: {
@@ -34,7 +34,7 @@ export function AuthProvider({ children }) {
 const refreshUser = async () => {
 
   const res = await fetch(
-    "http://localhost:5000/api/auth/me",
+    "http://four6-backend.onrender.com/api/auth/me",
     {
       credentials: "include",
     }
