@@ -8,7 +8,7 @@ export default function AdminWithdrawals() {
   const load = async () => {
 
     const res = await fetch(
-      "http://four6-backend.onrender.com/api/withdrawals/all",
+      "https://four6-backend.onrender.com/api/withdrawals/all",
       { credentials: "include" }
     );
 
@@ -26,7 +26,7 @@ export default function AdminWithdrawals() {
   const approve = async (id) => {
 
     await fetch(
-      `http://four6-backend.onrender.com/api/withdrawals/approve/${id}`,
+      `https://four6-backend.onrender.com/api/withdrawals/approve/${id}`,
       {
         method: "POST",
         credentials: "include"
@@ -40,7 +40,7 @@ export default function AdminWithdrawals() {
   const reject = async (id) => {
 
     await fetch(
-      `http://four6-backend.onrender.com/api/withdrawals/reject/${id}`,
+      `https://four6-backend.onrender.com/api/withdrawals/reject/${id}`,
       {
         method: "POST",
         credentials: "include"

@@ -6,7 +6,7 @@ export default function MyBets() {
   const [bets, setBets] = useState([]);
 
   const fetchBets = () => {
-    fetch("http://four6-backend.onrender.com/api/bets/my", {
+    fetch("https://four6-backend.onrender.com/api/bets/my", {
       credentials: "include",
     })
       .then(res => res.json())

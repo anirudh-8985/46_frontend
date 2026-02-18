@@ -7,7 +7,7 @@ export default function History() {
 
   useEffect(() => {
 
-    fetch("http://four6-backend.onrender.com/api/bets/history", {
+    fetch("https://four6-backend.onrender.com/api/bets/history", {
       credentials: "include"
     })
       .then(res => res.json())

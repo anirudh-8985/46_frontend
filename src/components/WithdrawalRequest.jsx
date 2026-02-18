@@ -12,7 +12,7 @@ export default function WithdrawalRequest() {
       return;
     }
 
-    const res = await fetch("http://four6-backend.onrender.com/api/withdrawals/request", {
+    const res = await fetch("https://four6-backend.onrender.com/api/withdrawals/request", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

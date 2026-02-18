@@ -42,7 +42,7 @@ export default function ChangeProfileModal({ onClose }) {
       setError("");
 
       const res = await fetch(
-        "http://four6-backend.onrender.com/api/auth/update-profile",
+        "https://four6-backend.onrender.com/api/auth/update-profile",
         {
           method: "POST",
           headers: {

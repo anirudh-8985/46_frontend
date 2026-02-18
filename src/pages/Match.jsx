@@ -12,7 +12,7 @@ export default function Match() {
 
   useEffect(() => {
 
-    fetch("http://four6-backend.onrender.com/api/matches")
+    fetch("https://four6-backend.onrender.com/api/matches")
       .then(r => r.json())
       .then(d => {
         setMatch(d.data.find(x => x.id === id));

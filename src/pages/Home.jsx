@@ -9,7 +9,7 @@ export default function Home() {
   const navigate = useNavigate(); 
   useEffect(() => {
 
-    fetch("http://four6-backend.onrender.com/api/matches")
+    fetch("https://four6-backend.onrender.com/api/matches")
       .then(res => res.json())
       .then(data => {
         setMatches(data.data || []);

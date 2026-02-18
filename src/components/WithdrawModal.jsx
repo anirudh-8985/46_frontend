@@ -20,7 +20,7 @@ export default function WithdrawModal({ onClose }) {
       setLoading(true);
 
       const res = await fetch(
-        "http://four6-backend.onrender.com/api/withdrawals/request",
+        "https://four6-backend.onrender.com/api/withdrawals/request",
         {
           method: "POST",
           headers: {
