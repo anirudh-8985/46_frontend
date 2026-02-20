@@ -30,7 +30,7 @@ export default function Navbar() {
 
         {/* LOGO */}
         <div className="logo">
-  <div className="logo-main">ANDHRA CRICKET</div>
+  <div className="logo-main">Sixer Bet</div>
   <div className="logo-sub">6666</div>
 </div>
 
