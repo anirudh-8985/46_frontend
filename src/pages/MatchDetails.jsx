@@ -18,7 +18,7 @@ export default function MatchDetails() {
 
   useEffect(() => {
 
-    fetch("https://localhost:5000/api/matches")
+    fetch("https://four6-backend.onrender.com/api/matches")
       .then(res => res.json())
       .then(data => {
         const m = data.data.find(x => x.id === id);
@@ -42,7 +42,7 @@ export default function MatchDetails() {
 
   try {
 
-    const res = await fetch("https://localhost:5000/api/bets/place", {
+    const res = await fetch("https://four6-backend.onrender.com/api/bets/place", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
