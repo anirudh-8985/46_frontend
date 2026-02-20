@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 const AuthContext = createContext();
 
@@ -108,7 +109,7 @@ export function AuthProvider({ children }) {
 
     setUser(null);
 
-    window.location.href = "/login";
+    // window.location.href = "/login";
   };
 
 
@@ -123,6 +124,7 @@ export function AuthProvider({ children }) {
     <AuthContext.Provider
       value={{
         user,
+        loading,
         setUser,
         login,
         logout,

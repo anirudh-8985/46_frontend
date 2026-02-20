@@ -7,17 +7,17 @@ export default function ProtectedRoute({ children, adminOnly }) {
 
   /* Wait until auth is loaded */
   if (loading) {
-    return <div>Loading...</div>;
+    return null; // or loading UI
   }
 
   /* Not logged in */
   if (!user) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" replace />;
   }
 
   /* Admin only */
   if (adminOnly && user.role !== "admin") {
-    return <Navigate to="/" />;
+    return <Navigate to="/" replace />;
   }
 
   return children;

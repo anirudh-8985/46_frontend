@@ -3,11 +3,20 @@ import { useUser } from "../context/AuthContext";
 import ChangeProfileModal from "./ChangeProfileModal";
 import "../styles/userpanel.css";
 import WithdrawModal from "./WithdrawModal";
+import { useNavigate } from "react-router-dom";
 
 export default function UserPanel({ onClose }) {
 
   const { logout } = useUser();
   const { user } = useUser();
+  const navigate = useNavigate();
+
+  const handleLogout = async () => {
+    await logout();
+    onClose();
+    navigate("/login", { replace: true });
+  };
+
 
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
@@ -59,10 +68,7 @@ export default function UserPanel({ onClose }) {
 
           <button
             className="drawer-btn logout"
-            onClick={() => {
-                logout();
-                onClose();   // ✅ Close panel
-            }}
+            onClick={handleLogout}
             >
             Logout
             </button>
