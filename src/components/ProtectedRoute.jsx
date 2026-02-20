@@ -3,14 +3,19 @@ import { useUser } from "../context/AuthContext";
 
 export default function ProtectedRoute({ children, adminOnly }) {
 
-  const { user } = useUser();
+  const { user, loading } = useUser();
 
-  // Not logged in
+  /* Wait until auth is loaded */
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  /* Not logged in */
   if (!user) {
     return <Navigate to="/login" />;
   }
 
-  // Admin only route
+  /* Admin only */
   if (adminOnly && user.role !== "admin") {
     return <Navigate to="/" />;
   }

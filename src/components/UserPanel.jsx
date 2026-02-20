@@ -7,6 +7,7 @@ import WithdrawModal from "./WithdrawModal";
 export default function UserPanel({ onClose }) {
 
   const { logout } = useUser();
+  const { user } = useUser();
 
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showWithdrawModal, setShowWithdrawModal] = useState(false);
@@ -19,10 +20,24 @@ export default function UserPanel({ onClose }) {
       {/* Drawer */}
       <div className="drawer">
 
-        <div className="drawer-header">
-          <span>User Panel</span>
-          <button onClick={onClose}>✕</button>
-        </div>
+        <div className="drawer-header user-info">
+
+  <div className="user-details">
+    <div className="user-name">
+      👤 {user?.username}
+    </div>
+
+    <div className="user-balance">
+      ₹ {user?.balance ?? 0}
+    </div>
+  </div>
+
+  <button className="close-btn" onClick={onClose}>
+    ✕
+  </button>
+
+</div>
+
 
         <div className="drawer-body">
 

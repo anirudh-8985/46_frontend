@@ -16,6 +16,11 @@
   margin-bottom: 20px;
 }
 
+.balance-text {
+  margin: 10px 0;
+  font-weight: bold;
+  color: green;
+}
 
 /* TABS */
 

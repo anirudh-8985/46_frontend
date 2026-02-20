@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import "../styles/admin.css";
+import AdminReports from "./AdminReports";
 
 export default function AdminDashboard() {
 
@@ -10,6 +11,10 @@ export default function AdminDashboard() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [balance, setBalance] = useState("");
+  // Add Money
+  const [moneyUser, setMoneyUser] = useState("");
+  const [moneyAmount, setMoneyAmount] = useState("");
+  const [userBalance, setUserBalance] = useState(null);
 
 
   /* ================= LOAD WITHDRAWALS ================= */
@@ -17,7 +22,7 @@ export default function AdminDashboard() {
   const loadWithdrawals = async () => {
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/withdrawals/all",
+      "http://four6-backend.onrender.com/api/withdrawals/all",
       { credentials: "include" }
     );
 
@@ -42,7 +47,7 @@ export default function AdminDashboard() {
     }
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/admin/add-user",
+      "http://four6-backend.onrender.com/api/admin/add-user",
       {
         method: "POST",
         headers: {
@@ -78,7 +83,7 @@ export default function AdminDashboard() {
   const approve = async (id) => {
 
     await fetch(
-      `https://four6-backend.onrender.com/api/withdrawals/approve/${id}`,
+      `http://four6-backend.onrender.com/api/withdrawals/approve/${id}`,
       {
         method: "POST",
         credentials: "include"
@@ -94,7 +99,7 @@ export default function AdminDashboard() {
   const reject = async (id) => {
 
     await fetch(
-      `https://four6-backend.onrender.com/api/withdrawals/reject/${id}`,
+      `http://four6-backend.onrender.com/api/withdrawals/reject/${id}`,
       {
         method: "POST",
         credentials: "include"
@@ -103,6 +108,82 @@ export default function AdminDashboard() {
 
     loadWithdrawals();
   };
+
+  /* ================= FETCH USER BALANCE ================= */
+
+const fetchBalance = async () => {
+
+  if (!moneyUser.trim()) {
+    alert("Enter username");
+    return;
+  }
+
+  try {
+
+    const res = await fetch(
+      `http://four6-backend.onrender.com/api/admin/user/${moneyUser}`,
+      {
+        credentials: "include",
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    setUserBalance(data.balance);
+
+  } catch (err) {
+    alert("Failed to load user");
+  }
+};
+
+    /* ================= ADD MONEY ================= */
+
+const handleAddMoney = async () => {
+
+  if (!moneyAmount || moneyAmount <= 0) {
+    alert("Enter valid amount");
+    return;
+  }
+
+  try {
+
+    const res = await fetch(
+      "http://four6-backend.onrender.com/api/admin/add-money",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+
+        body: JSON.stringify({
+          username: moneyUser,
+          amount: Number(moneyAmount),
+        }),
+      }
+    );
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.error);
+      return;
+    }
+
+    alert("✅ Money Added");
+
+    setUserBalance(data.balance);
+    setMoneyAmount("");
+
+  } catch (err) {
+    alert("Server error");
+  }
+};
 
 
   /* ================= UI ================= */
@@ -133,6 +214,21 @@ export default function AdminDashboard() {
         >
           💰 Withdraw Requests
         </button>
+
+        <button
+          className={tab === "money" ? "active" : ""}
+          onClick={() => setTab("money")}
+        >
+          ➕ Add Money
+        </button>
+
+          <button
+            className={tab === "reports" ? "active" : ""}
+            onClick={() => setTab("reports")}
+          >
+            📊 Reports
+          </button>
+
 
       </div>
 
@@ -171,6 +267,8 @@ export default function AdminDashboard() {
           >
             Create User
           </button>
+
+        
 
         </div>
       )}
@@ -246,6 +344,60 @@ export default function AdminDashboard() {
 
         </div>
       )}
+
+
+    {/* ================= ADD MONEY ================= */}
+
+{tab === "money" && (
+
+  <div className="admin-card">
+
+    <h3>Add Money to User</h3>
+
+    <input
+      placeholder="Username"
+      value={moneyUser}
+      onChange={e => setMoneyUser(e.target.value)}
+    />
+
+    <button
+      className="primary-btn"
+      onClick={fetchBalance}
+    >
+      Check Balance
+    </button>
+
+
+    {userBalance !== null && (
+
+      <>
+        <p className="balance-text">
+          Current Balance: ₹ {userBalance}
+        </p>
+
+        <input
+          type="number"
+          placeholder="Enter Amount"
+          value={moneyAmount}
+          onChange={e => setMoneyAmount(e.target.value)}
+        />
+
+        <button
+          className="primary-btn"
+          onClick={handleAddMoney}
+        >
+          Add Money
+        </button>
+      </>
+    )}
+
+  </div>
+)}
+
+{tab === "reports" && (
+  <AdminReports />
+)}
+
 
     </div>
   );

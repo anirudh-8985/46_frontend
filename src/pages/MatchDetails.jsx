@@ -18,7 +18,7 @@ export default function MatchDetails() {
 
   useEffect(() => {
 
-    fetch("https://four6-backend.onrender.com/api/matches")
+    fetch("http://localhost:5000/api/matches")
       .then(res => res.json())
       .then(data => {
         const m = data.data.find(x => x.id === id);
@@ -42,7 +42,7 @@ export default function MatchDetails() {
 
   try {
 
-    const res = await fetch("https://four6-backend.onrender.com/api/bets/place", {
+    const res = await fetch("http://localhost:5000/api/bets/place", {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -58,6 +58,11 @@ export default function MatchDetails() {
         betKey: selectedBet.key,
 
         teamSelected: selectedBet.label, // ✅ IMPORTANT
+
+        questionIndex:
+    selectedBet.type === "question"
+      ? selectedBet.questionIndex
+      : null,
 
         odds: selectedBet.odds,
 
@@ -241,10 +246,12 @@ export default function MatchDetails() {
                     toggleBet({
                       type: "question",
                       key: `q${index}-1`,
+                      label: q.team1,          // ✅ ADD THIS
                       odds: q.odds1,
                       questionIndex: index,
                     })
                   }
+
                 >
                   {q.team1}
                   <br />
@@ -263,10 +270,12 @@ export default function MatchDetails() {
                     toggleBet({
                       type: "question",
                       key: `q${index}-2`,
+                      label: q.team2,          // ✅ ADD THIS
                       odds: q.odds2,
                       questionIndex: index,
                     })
                   }
+
                 >
                   {q.team2}
                   <br />
