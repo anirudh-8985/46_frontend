@@ -26,7 +26,7 @@ export default function AdminAddMoney() {
       setMsg("");
 
       const res = await fetch(
-        `http://four6-backend.onrender.com/api/admin/user/${username}`,
+        `https://four6-backend.onrender.com/api/admin/user/${username}`,
         {
           credentials: "include",
         }
@@ -63,7 +63,7 @@ export default function AdminAddMoney() {
       setLoading(true);
 
       const res = await fetch(
-        "http://four6-backend.onrender.com/api/admin/add-money",
+        "https://four6-backend.onrender.com/api/admin/add-money",
         {
           method: "POST",
           headers: {

@@ -7,13 +7,13 @@ export default function AdminReports() {
 
   useEffect(() => {
 
-    fetch("http://four6-backend.onrender.com/api/admin/reports/profit-report", {
+    fetch("https://four6-backend.onrender.com/api/admin/reports/profit-report", {
       credentials: "include"
     })
       .then(res => res.json())
       .then(data => setProfit(data.totalProfit));
 
-    fetch("http://four6-backend.onrender.com/api/admin/reports/daily-summary", {
+    fetch("https://four6-backend.onrender.com/api/admin/reports/daily-summary", {
       credentials: "include"
     })
       .then(res => res.json())
