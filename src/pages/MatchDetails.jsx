@@ -9,24 +9,57 @@ export default function MatchDetails() {
   const { id } = useParams();
 
   const [match, setMatch] = useState(null);
-
+  const [myBets, setMyBets] = useState([]);
   const [selectedBet, setSelectedBet] = useState(null);
   const [amount, setAmount] = useState("");
-
+  const BASE_URL = import.meta.env.VITE_API_URL
 
   /* ================= FETCH MATCH ================= */
 
+
+
   useEffect(() => {
 
-    fetch("https://four6-backend.onrender.com/api/matches")
-      .then(res => res.json())
-      .then(data => {
-        const m = data.data.find(x => x.id === id);
-        setMatch(m);
-      })
-      .catch(err => console.error(err));
+  const loadData = async () => {
+    try {
 
-  }, [id]);
+      // Fetch match
+      const matchRes = await fetch(`${BASE_URL}/api/matches`);
+      const matchData = await matchRes.json();
+
+      const m = matchData.data.find(x => x.id === id);
+      setMatch(m);
+
+      // Fetch my bets
+      const betsRes = await fetch(
+        `${BASE_URL}/api/bets/my`,
+        { credentials: "include" }
+      );
+
+      const betsData = await betsRes.json();
+      setMyBets(betsData.bets || []);
+
+    } catch (err) {
+      console.error("Auto refresh failed", err);
+    }
+  };
+
+
+  // First load immediately
+  loadData();
+
+  // Then every 3 seconds
+  // const interval = setInterval(loadData, 3000);
+  const interval = setInterval(() => {
+  if (match?.live) {
+    loadData();
+  }
+}, 3000);
+
+  // Cleanup
+  return () => clearInterval(interval);
+
+}, [id]);
 
 
   if (!match) return <div>Loading...</div>;
@@ -42,7 +75,7 @@ export default function MatchDetails() {
 
   try {
 
-    const res = await fetch("https://four6-backend.onrender.com/api/bets/place", {
+    const res = await fetch(`${BASE_URL}/api/bets/place`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"
@@ -80,6 +113,16 @@ export default function MatchDetails() {
 
     alert("Bet placed!");
 
+    // Reload bets for exposure update
+const betsRes = await fetch(
+  `${BASE_URL}/api/bets/my`,
+  { credentials: "include" }
+);
+
+const betsData = await betsRes.json();
+
+setMyBets(betsData.bets || []);
+
     // ✅ Update balance instantly
     // Update locally
       setUser(prev => ({
@@ -113,6 +156,67 @@ export default function MatchDetails() {
     }
 
   };
+
+  const h2hBets = myBets.filter(
+        b => b.matchId === id && b.betType === "h2h"
+      );
+
+      const getExistingExposure = (team) => {
+        let total = 0;
+
+        h2hBets.forEach(bet => {
+          if (bet.teamSelected === team) {
+            total += bet.amount;
+          }
+        });
+
+        return total;
+      };
+
+      const getH2HPreview = (team, odds) => {
+
+  let win = 0;
+  let lose = 0;
+
+  // Existing bets
+  myBets.forEach(bet => {
+
+    if (bet.matchId !== id) return;
+    if (bet.betType !== "h2h") return;
+
+    if (bet.teamSelected === team) {
+
+      // If THIS team wins
+      win += bet.amount * bet.odds - bet.amount;
+
+    } else {
+
+      // If THIS team wins, others lose
+      win -= bet.amount;
+
+    }
+  });
+
+  // New bet preview
+  if (selectedBet?.label === team && amount) {
+
+    const amt = Number(amount);
+
+    win += amt * odds - amt;
+
+  }
+
+  if (selectedBet && selectedBet.label !== team && amount) {
+
+    win -= Number(amount);
+  }
+
+  return {
+    profit: win > 0 ? win.toFixed(2) : "0.00",
+    loss: win < 0 ? Math.abs(win).toFixed(2) : "0.00"
+  };
+};
+
 
 
   return (
@@ -158,51 +262,85 @@ export default function MatchDetails() {
 
         <h3 className="sub-title">Head to Head</h3>
 
-        <div className="odds-container">
+<div className="odds-container">
 
-          {/* HOME */}
-          <button
-            className={`odd-box ${
-              selectedBet?.key === "home" ? "active-odd" : ""
-            }`}
-            onClick={() =>
-              setSelectedBet({
-                type: "h2h",
-                key: "home",
-                label: match.home,   // ✅ ADD THIS
-                odds: match.odds1
-              })
-            }
+  {/* HOME */}
+  <div className="odd-wrapper">
 
-          >
-            {match.home}
-            <br />
-            {match.odds1}x
-          </button>
+    <button
+      className={`odd-box ${
+        selectedBet?.key === "home" ? "active-odd" : ""
+      }`}
+      onClick={() =>
+        toggleBet({
+          type: "h2h",
+          key: "home",
+          label: match.home,
+          odds: match.odds1
+        })
+      }
+    >
+      {match.home}
+      <br />
+      {match.odds1}x
+    </button>
+
+    {/* Profit / Loss Preview */}
+      <div className="preview-box">
+
+  <span className="profit">
+    +₹{getH2HPreview(match.home, match.odds1).profit}
+  </span>
+
+  <span className="loss">
+    -₹{getH2HPreview(match.home, match.odds1).loss}
+  </span>
+
+</div>
+
+  </div>
 
 
-          {/* AWAY */}
-          <button
-            className={`odd-box ${
-              selectedBet?.key === "away" ? "active-odd" : ""
-            }`}
-            onClick={() =>
-            setSelectedBet({
-              type: "h2h",
-              key: "away",
-              label: match.away,   // ✅ ADD THIS
-              odds: match.odds2
-            })
-}
+  {/* AWAY */}
+  <div className="odd-wrapper">
 
-          >
-            {match.away}
-            <br />
-            {match.odds2}x
-          </button>
+    <button
+      className={`odd-box ${
+        selectedBet?.key === "away" ? "active-odd" : ""
+      }`}
+      onClick={() =>
+        toggleBet({
+          type: "h2h",
+          key: "away",
+          label: match.away,
+          odds: match.odds2
+        })
+      }
+    >
+      {match.away}
+      <br />
+      {match.odds2}x
+    </button>
 
-        </div>
+    {/* Profit / Loss Preview */}
+     <div className="preview-box">
 
+      <span className="profit">
+        +₹{getH2HPreview(match.away, match.odds2).profit}
+      </span>
+
+      <span className="loss">
+        -₹{getH2HPreview(match.away, match.odds2).loss}
+      </span>
+
+    </div>
+    
+
+      </div>
+
+    </div>
+
+        
 
         {/* H2H BET PANEL */}
         {selectedBet?.type === "h2h" && (
@@ -223,9 +361,9 @@ export default function MatchDetails() {
 
         {match.questions
           ?.filter(q => q.active)
-          .map((q, index) => (
+          .map((q) => (
 
-            <div key={index} className="question-box">
+            <div key={q.questionId} className="question-box">
 
               <div className="question-title">
                 {q.question}
@@ -238,17 +376,17 @@ export default function MatchDetails() {
                 {/* YES */}
                 <button
                   className={`odd-box ${
-                    selectedBet?.key === `q${index}-1`
+                    selectedBet?.key === `${q.questionId}_yes`
                       ? "active-odd"
                       : ""
                   }`}
                   onClick={() =>
                     toggleBet({
                       type: "question",
-                      key: `q${index}-1`,
+                      key: `${q.questionId}_yes`,
                       label: q.team1,          // ✅ ADD THIS
                       odds: q.odds1,
-                      questionIndex: index,
+                      questionIndex: q.questionId,
                     })
                   }
 
@@ -262,17 +400,18 @@ export default function MatchDetails() {
                 {/* NO */}
                 <button
                   className={`odd-box ${
-                    selectedBet?.key === `q${index}-2`
+                    selectedBet?.key === `${q.questionId}_no`
                       ? "active-odd"
                       : ""
                   }`}
+                  cons
                   onClick={() =>
                     toggleBet({
                       type: "question",
-                      key: `q${index}-2`,
+                      key: `${q.questionId}_no`,
                       label: q.team2,          // ✅ ADD THIS
                       odds: q.odds2,
-                      questionIndex: index,
+                      questionIndex: q.questionId,
                     })
                   }
 
@@ -287,7 +426,7 @@ export default function MatchDetails() {
 
               {/* QUESTION BET PANEL */}
               {selectedBet?.type === "question" &&
-                selectedBet?.questionIndex === index && (
+                selectedBet?.questionIndex === q.questionId && (
 
                   <BetPanel
                     selectedBet={selectedBet}

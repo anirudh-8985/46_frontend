@@ -4,9 +4,9 @@ import "../styles/mybets.css";
 export default function MyBets() {
 
   const [bets, setBets] = useState([]);
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   const fetchBets = () => {
-    fetch("https://four6-backend.onrender.com/api/bets/my", {
+    fetch(`${BASE_URL}/api/bets/my`, {
       credentials: "include",
     })
       .then(res => res.json())

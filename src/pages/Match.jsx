@@ -6,13 +6,13 @@ export default function Match() {
 
   const { id } = useParams();
   const { updateBalance } = useUser();
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   const [match, setMatch] = useState(null);
   const [amount, setAmount] = useState("");
 
   useEffect(() => {
 
-    fetch("https://four6-backend.onrender.com/api/matches")
+    fetch(`${BASE_URL}/api/matches`)
       .then(r => r.json())
       .then(d => {
         setMatch(d.data.find(x => x.id === id));

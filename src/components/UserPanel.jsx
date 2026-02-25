@@ -29,15 +29,14 @@ export default function UserPanel({ onClose }) {
       {/* Drawer */}
       <div className="drawer">
 
-        <div className="drawer-header user-info">
+        <div className="user-info">
 
-  <div className="user-details">
-    <div className="user-name">
-      👤 {user?.username}
-    </div>
+  <div className="user-left">
+    <div className="user-avatar">👤</div>
 
-    <div className="user-balance">
-      ₹ {user?.balance ?? 0}
+    <div className="user-details">
+      <div className="user-name">{user.username}</div>
+      <div className="user-balance">₹ {user.balance}</div>
     </div>
   </div>
 

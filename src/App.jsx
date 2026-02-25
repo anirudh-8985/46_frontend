@@ -1,13 +1,17 @@
 
-import { BrowserRouter, Routes, Route, Link } from "react-router-dom";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { useEffect } from "react";
 import { useUser } from "./context/AuthContext";
-
+import UpdaterPanel from "./pages/UpdaterPanel";
+import LoaderPanel from "./pages/LoaderPanel";
 import Navbar from "./components/Navbar";
 import History from "./pages/History";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminWithdrawals from "./pages/AdminWithdrawals";
-
+import { Link, useLocation } from "react-router-dom";
+import { AiFillHome } from "react-icons/ai";
+import { FaTicketAlt } from "react-icons/fa";
+import { MdHistory } from "react-icons/md";
 import Home from "./pages/Home";
 import MatchDetails from "./pages/MatchDetails";
 import MyBets from "./pages/MyBets";
@@ -115,28 +119,64 @@ export default function App() {
           }
         />
 
+        <Route
+        path="/updater"
+        element={
+          <ProtectedRoute updaterOnly>
+            <UpdaterPanel />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/loader"
+        element={
+          <ProtectedRoute loaderOnly>
+            <LoaderPanel />
+          </ProtectedRoute>
+        }
+      />
+
       </Routes>
 
 
       {/* ================= BOTTOM NAV ================= */}
 
       {user && (
-        <div className="bottom-nav">
+  <div className="bottom-nav">
 
-          <Link className="nav-item" to="/">
-            Home
-          </Link>
+    <Link
+      to="/"
+      className={`nav-item ${
+        location.pathname === "/" ? "active" : ""
+      }`}
+    >
+      <AiFillHome size={22} />
+      <span>Home</span>
+    </Link>
 
-          <Link className="nav-item" to="/mybets">
-            My Bets
-          </Link>
+    <Link
+      to="/mybets"
+      className={`nav-item ${
+        location.pathname === "/mybets" ? "active" : ""
+      }`}
+    >
+      <FaTicketAlt size={20} />
+      <span>My Bets</span>
+    </Link>
 
-          <Link className="nav-item" to="/history">
-            History
-          </Link>
+    <Link
+      to="/history"
+      className={`nav-item ${
+        location.pathname === "/history" ? "active" : ""
+      }`}
+    >
+      <MdHistory size={22} />
+      <span>History</span>
+    </Link>
 
-        </div>
-      )}
+  </div>
+)}
 
     </BrowserRouter>
   );

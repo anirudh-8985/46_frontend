@@ -11,8 +11,8 @@ export default function WithdrawalRequest() {
       alert("Fill all fields");
       return;
     }
-
-    const res = await fetch("https://four6-backend.onrender.com/api/withdrawals/request", {
+    const BASE_URL = import.meta.env.VITE_API_URL
+    const res = await fetch(`${BASE_URL}/api/withdrawals/request`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json"

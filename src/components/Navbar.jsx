@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useUser } from "../context/AuthContext";
 import { Link } from "react-router-dom";
-
+import logo from "../assets/red_ball.png"; // adjust path if needed
 import UserPanel from "./UserPanel";
 import "../styles/navbar.css";
 
@@ -29,9 +29,9 @@ export default function Navbar() {
 
 
         {/* LOGO */}
-        <div className="logo">
-  <div className="logo-main">Sixer Bet</div>
-  <div className="logo-sub">6666</div>
+        <div className="brand-box">
+  <img src={logo} alt="Logo" className="brand-logo" />
+  <span className="brand-text">BET MAMA</span>
 </div>
 
 
@@ -58,6 +58,19 @@ export default function Navbar() {
               {user?.role === "admin" && (
                 <Link to="/admin" className="admin-link">
                   Admin
+                </Link>
+              )}
+
+              {/* UPDATER */}
+              {user?.role === "updater" && (
+                <Link to="/updater" className="updater-link">
+                  Live Panel
+                </Link>
+              )}
+
+              {user?.role === "loader" && (
+                <Link to="/loader" className="loader-link">
+                  Question Panel
                 </Link>
               )}
             </>

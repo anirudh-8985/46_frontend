@@ -5,7 +5,7 @@ import AdminReports from "./AdminReports";
 export default function AdminDashboard() {
 
   const [tab, setTab] = useState("users");
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   const [withdrawals, setWithdrawals] = useState([]);
 
   const [username, setUsername] = useState("");
@@ -22,7 +22,7 @@ export default function AdminDashboard() {
   const loadWithdrawals = async () => {
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/withdrawals/all",
+      `${BASE_URL}/api/withdrawals/all`,
       { credentials: "include" }
     );
 
@@ -47,7 +47,7 @@ export default function AdminDashboard() {
     }
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/admin/add-user",
+      `${BASE_URL}/api/admin/add-user`,
       {
         method: "POST",
         headers: {
@@ -83,7 +83,7 @@ export default function AdminDashboard() {
   const approve = async (id) => {
 
     await fetch(
-      `https://four6-backend.onrender.com/api/withdrawals/approve/${id}`,
+      `${BASE_URL}/api/withdrawals/approve/${id}`,
       {
         method: "POST",
         credentials: "include"
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
   const reject = async (id) => {
 
     await fetch(
-      `https://four6-backend.onrender.com/api/withdrawals/reject/${id}`,
+      `${BASE_URL}/api/withdrawals/reject/${id}`,
       {
         method: "POST",
         credentials: "include"
@@ -121,7 +121,7 @@ const fetchBalance = async () => {
   try {
 
     const res = await fetch(
-      `https://four6-backend.onrender.com/api/admin/user/${moneyUser}`,
+      `${BASE_URL}/api/admin/user/${moneyUser}`,
       {
         credentials: "include",
       }
@@ -153,7 +153,7 @@ const handleAddMoney = async () => {
   try {
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/admin/add-money",
+      `${BASE_URL}/api/admin/add-money`,
       {
         method: "POST",
         headers: {

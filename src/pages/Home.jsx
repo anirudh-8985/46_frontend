@@ -6,10 +6,11 @@ import "../styles/home.css";
 export default function Home() {
 
   const [matches, setMatches] = useState([]);
+  const BASE_URL = import.meta.env.VITE_API_URL
   const navigate = useNavigate(); 
   useEffect(() => {
 
-    fetch("https://four6-backend.onrender.com/api/matches")
+    fetch(`${BASE_URL}/api/matches`)
       .then(res => res.json())
       .then(data => {
         setMatches(data.data || []);
@@ -97,7 +98,7 @@ export default function Home() {
               className="bet-btn"
               onClick={() => navigate(`/match/${match.id}`)} 
             >
-              Place Bet
+             🏏 Place Bet
             </button>
 
           </div>

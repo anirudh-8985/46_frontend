@@ -4,10 +4,10 @@ import "../styles/history.css";
 export default function History() {
 
   const [bets, setBets] = useState([]);
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   useEffect(() => {
 
-    fetch("https://four6-backend.onrender.com/api/bets/history", {
+    fetch(`${BASE_URL}/api/bets/history`, {
       credentials: "include"
     })
       .then(res => res.json())

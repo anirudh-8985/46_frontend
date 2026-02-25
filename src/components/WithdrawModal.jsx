@@ -6,7 +6,7 @@ export default function WithdrawModal({ onClose }) {
   const [amount, setAmount] = useState("");
   const [upiId, setUpiId] = useState("");
   const [loading, setLoading] = useState(false);
-
+  const BASE_URL = import.meta.env.VITE_API_URL
 
   const handleSubmit = async () => {
 
@@ -20,7 +20,7 @@ export default function WithdrawModal({ onClose }) {
       setLoading(true);
 
       const res = await fetch(
-        "https://four6-backend.onrender.com/api/withdrawals/request",
+        `${BASE_URL}/api/withdrawals/request`,
         {
           method: "POST",
           headers: {

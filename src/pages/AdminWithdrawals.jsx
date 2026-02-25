@@ -4,11 +4,11 @@ export default function AdminWithdrawals() {
 
   const [list, setList] = useState([]);
 
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   const load = async () => {
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/withdrawals/all",
+      `${BASE_URL}/api/withdrawals/all`,
       { credentials: "include" }
     );
 
@@ -26,7 +26,7 @@ export default function AdminWithdrawals() {
   const approve = async (id) => {
 
     await fetch(
-      `https://four6-backend.onrender.com/api/withdrawals/approve/${id}`,
+      `${BASE_URL}/api/withdrawals/approve/${id}`,
       {
         method: "POST",
         credentials: "include"
@@ -40,7 +40,7 @@ export default function AdminWithdrawals() {
   const reject = async (id) => {
 
     await fetch(
-      `https://four6-backend.onrender.com/api/withdrawals/reject/${id}`,
+      `${BASE_URL}/api/withdrawals/reject/${id}`,
       {
         method: "POST",
         credentials: "include"

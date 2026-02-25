@@ -4,16 +4,16 @@ export default function AdminReports() {
 
   const [profit, setProfit] = useState(0);
   const [summary, setSummary] = useState(null);
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   useEffect(() => {
 
-    fetch("https://four6-backend.onrender.com/api/admin/reports/profit-report", {
+    fetch(`${BASE_URL}/api/admin/reports/profit-report`, {
       credentials: "include"
     })
       .then(res => res.json())
       .then(data => setProfit(data.totalProfit));
 
-    fetch("https://four6-backend.onrender.com/api/admin/reports/daily-summary", {
+    fetch(`${BASE_URL}/api/admin/reports/daily-summary`, {
       credentials: "include"
     })
       .then(res => res.json())

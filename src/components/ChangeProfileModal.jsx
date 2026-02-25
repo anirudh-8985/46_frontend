@@ -13,7 +13,7 @@ export default function ChangeProfileModal({ onClose }) {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  const BASE_URL = import.meta.env.VITE_API_URL
 
 
   /* ================= SUBMIT ================= */
@@ -40,9 +40,10 @@ export default function ChangeProfileModal({ onClose }) {
 
       setLoading(true);
       setError("");
+      
 
       const res = await fetch(
-        "https://four6-backend.onrender.com/api/auth/update-profile",
+        `${BASE_URL}/api/auth/update-profile`,
         {
           method: "POST",
           headers: {

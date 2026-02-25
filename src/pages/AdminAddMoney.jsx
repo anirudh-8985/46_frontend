@@ -6,7 +6,7 @@ export default function AdminAddMoney() {
   const [username, setUsername] = useState("");
   const [amount, setAmount] = useState("");
   const [balance, setBalance] = useState(null);
-
+  const BASE_URL = import.meta.env.VITE_API_URL
   const [loading, setLoading] = useState(false);
   const [msg, setMsg] = useState("");
 
@@ -26,7 +26,7 @@ export default function AdminAddMoney() {
       setMsg("");
 
       const res = await fetch(
-        `https://four6-backend.onrender.com/api/admin/user/${username}`,
+        `${BASE_URL}/api/admin/user/${username}`,
         {
           credentials: "include",
         }
@@ -63,7 +63,7 @@ export default function AdminAddMoney() {
       setLoading(true);
 
       const res = await fetch(
-        "https://four6-backend.onrender.com/api/admin/add-money",
+        `${BASE_URL}/api/admin/add-money`,
         {
           method: "POST",
           headers: {

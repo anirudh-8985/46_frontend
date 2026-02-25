@@ -47,7 +47,7 @@ export default function Login() {
       >
 
         <h2 className="login-title">
-          Login to WIN
+          Login to WIN 💵
         </h2>
 
 
@@ -77,6 +77,11 @@ export default function Login() {
         <button type="submit">
           Login
         </button>
+
+        {/* TRUST TEXT */}
+      <p className="secure-text">
+        🔒 100% Secure & Fast Withdrawal
+      </p>
 
       </form>
 

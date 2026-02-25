@@ -8,7 +8,7 @@ export function AuthProvider({ children }) {
 
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true); // ✅ NEW
-
+  const BASE_URL = import.meta.env.VITE_API_URL
 
   /* ================= AUTO LOAD USER ================= */
 
@@ -19,7 +19,7 @@ export function AuthProvider({ children }) {
       try {
 
         const res = await fetch(
-          "https://four6-backend.onrender.com/api/auth/me",
+          `${BASE_URL}/api/auth/me`,
           {
             credentials: "include"
           }
@@ -48,7 +48,7 @@ export function AuthProvider({ children }) {
   const login = async (username, password) => {
 
     const res = await fetch(
-      "https://four6-backend.onrender.com/api/auth/login",
+      `${BASE_URL}/api/auth/login`,
       {
         method: "POST",
         headers: {
@@ -77,7 +77,7 @@ export function AuthProvider({ children }) {
     try {
 
       const res = await fetch(
-        "https://four6-backend.onrender.com/api/auth/me",
+        `${BASE_URL}/api/auth/me`,
         {
           credentials: "include",
         }
@@ -100,7 +100,7 @@ export function AuthProvider({ children }) {
   const logout = async () => {
 
     await fetch(
-      "https://four6-backend.onrender.com/api/auth/logout",
+      `${BASE_URL}/api/auth/logout`,
       {
         method: "POST",
         credentials: "include",
